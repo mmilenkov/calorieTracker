@@ -1,4 +1,4 @@
-package org.selostudios.tracker_presentation.trackeroverview
+package org.selostudios.tracker_presentation.ui.trackeroverview
 
 import androidx.annotation.DrawableRes
 import org.selostudios.core.util.UiText

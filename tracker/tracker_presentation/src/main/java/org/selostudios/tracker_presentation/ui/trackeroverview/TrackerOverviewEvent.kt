@@ -1,4 +1,4 @@
-package org.selostudios.tracker_presentation.trackeroverview
+package org.selostudios.tracker_presentation.ui.trackeroverview
 
 import org.selostudios.tracker_domain.model.TrackedFood
 
