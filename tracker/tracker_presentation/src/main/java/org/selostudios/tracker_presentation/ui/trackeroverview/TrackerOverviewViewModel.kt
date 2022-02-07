@@ -38,6 +38,7 @@ class TrackerOverviewViewModel @Inject constructor(
             is TrackerOverviewEvent.OnAddFoodClick -> {
                 viewModelScope.launch {
                     _uiEvent.send(
+                        //Provides arguments to the navController in our MainActivity
                         UiEvent.Navigate(route = Route.SEARCH +
                         "/${event.meal.mealType.name}" +
                         "/${state.date.dayOfMonth}" +

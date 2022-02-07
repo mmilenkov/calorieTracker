@@ -6,10 +6,14 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.Scaffold
 import androidx.compose.material.rememberScaffoldState
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
+import coil.annotation.ExperimentalCoilApi
 import dagger.hilt.android.AndroidEntryPoint
 import org.selostudios.calorietracker.navigation.navigate
 import org.selostudios.calorietracker.ui.theme.CalorieTrackerTheme
@@ -22,8 +26,11 @@ import org.selostudios.onboarding_presentation.height.HeightScreen
 import org.selostudios.onboarding_presentation.nutrientgoal.NutrientGoalScreen
 import org.selostudios.onboarding_presentation.weight.WeightScreen
 import org.selostudios.onboarding_presentation.welcome.WelcomeScreen
+import org.selostudios.tracker_presentation.ui.search.SearchScreen
 import org.selostudios.tracker_presentation.ui.trackeroverview.TrackerOverviewScreen
 
+@ExperimentalCoilApi
+@ExperimentalComposeUiApi
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -76,8 +83,36 @@ class MainActivity : ComponentActivity() {
                         composable(Route.TRACKER_OVERVIEW) {
                             TrackerOverviewScreen(onNavigate = navController::navigate)
                         }
-                        composable(Route.SEARCH) {
-
+                        composable(route = Route.SEARCH + "/{mealName}/{dayOfMonth}/{month}/{year}",
+                        arguments = listOf(
+                            navArgument("mealName") {
+                                NavType.StringType
+                            },
+                            navArgument("dayOfMonth") {
+                                NavType.IntType
+                            },
+                            navArgument("month") {
+                                NavType.IntType
+                            },
+                            navArgument("year") {
+                                NavType.IntType
+                            }
+                        )) {
+                            //Values retrieved from backstack entry
+                            //Can assert null if mandatory
+                            val mealName = it.arguments?.getString("mealName")!!
+                            val dayOfMonth = it.arguments?.getInt("dayOfMonth")!!
+                            val month = it.arguments?.getInt("month")!!
+                            val year = it.arguments?.getInt("year")!!
+                            SearchScreen(
+                                scaffoldState = scaffoldState,
+                                mealName = mealName,
+                                dayOfMonth = dayOfMonth,
+                                month = month,
+                                year = year,
+                                onNavigateUp = {
+                                    navController.navigateUp()
+                                })
                         }
                     }
                 }
