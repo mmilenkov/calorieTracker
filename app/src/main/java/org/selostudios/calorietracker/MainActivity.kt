@@ -17,6 +17,7 @@ import coil.annotation.ExperimentalCoilApi
 import dagger.hilt.android.AndroidEntryPoint
 import org.selostudios.calorietracker.navigation.navigate
 import org.selostudios.calorietracker.ui.theme.CalorieTrackerTheme
+import org.selostudios.core.doman.preferences.Preferences
 import org.selostudios.core.navigation.Route
 import org.selostudios.onboarding_presentation.activity.ActivityScreen
 import org.selostudios.onboarding_presentation.age.AgeScreen
@@ -28,13 +29,19 @@ import org.selostudios.onboarding_presentation.weight.WeightScreen
 import org.selostudios.onboarding_presentation.welcome.WelcomeScreen
 import org.selostudios.tracker_presentation.ui.search.SearchScreen
 import org.selostudios.tracker_presentation.ui.trackeroverview.TrackerOverviewScreen
+import javax.inject.Inject
 
 @ExperimentalCoilApi
 @ExperimentalComposeUiApi
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+
+    @Inject
+    lateinit var preferences: Preferences
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val shouldShowOnboarding = preferences.loadShouldShowOnboarding()
         setContent {
             CalorieTrackerTheme {
                 val navController = rememberNavController()
@@ -43,7 +50,14 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     scaffoldState = scaffoldState
                 ) {
-                    NavHost(navController = navController, startDestination = Route.WELCOME) {
+                    NavHost(
+                        navController = navController,
+                        startDestination = if (shouldShowOnboarding) {
+                            Route.WELCOME
+                        } else {
+                            Route.TRACKER_OVERVIEW
+                        }
+                    ) {
                         composable(Route.WELCOME) {
                             WelcomeScreen(onNavigate = navController::navigate)
                         }
@@ -86,16 +100,16 @@ class MainActivity : ComponentActivity() {
                         composable(route = Route.SEARCH + "/{mealName}/{dayOfMonth}/{month}/{year}",
                         arguments = listOf(
                             navArgument("mealName") {
-                                NavType.StringType
+                                type = NavType.StringType
                             },
                             navArgument("dayOfMonth") {
-                                NavType.IntType
+                                type = NavType.IntType
                             },
                             navArgument("month") {
-                                NavType.IntType
+                                type = NavType.IntType
                             },
                             navArgument("year") {
-                                NavType.IntType
+                                type = NavType.IntType
                             }
                         )) {
                             //Values retrieved from backstack entry

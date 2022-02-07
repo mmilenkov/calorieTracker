@@ -29,7 +29,9 @@ class TrackerOverviewViewModel @Inject constructor(
 
     var state by mutableStateOf(TrackerOverviewState())
         private set
+
     init {
+        refreshFoods()
         preferences.saveShouldShowOnboarding(false)
     }
 
@@ -81,7 +83,9 @@ class TrackerOverviewViewModel @Inject constructor(
 
     private fun refreshFoods() {
         refreshJob?.cancel()
-        refreshJob = trackerUseCases.getFoodsForDate(state.date).onEach { foods ->
+        refreshJob = trackerUseCases
+            .getFoodsForDate(state.date)
+            .onEach { foods ->
             val result = trackerUseCases.calculateMealNutrients(foods)
             state = state.copy(
                 totalCarbs = result.totalCarbs,
@@ -92,6 +96,7 @@ class TrackerOverviewViewModel @Inject constructor(
                 proteinGoal = result.proteinGoal,
                 fatGoal = result.fatGoal,
                 calorieGoal = result.caloriesGoal,
+                trackedFoods = foods,
                 meals = state.meals.map {
                     val nutrientsForMeal = result.mealMap[it.mealType] ?:
                     return@map it.copy(

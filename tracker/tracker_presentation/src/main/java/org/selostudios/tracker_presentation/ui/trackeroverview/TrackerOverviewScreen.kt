@@ -62,9 +62,9 @@ fun TrackerOverviewScreen(
                           Column(
                               modifier = Modifier
                                   .fillMaxWidth()
-                                  .padding(spacing.small)
+                                  .padding(horizontal = spacing.small)
                           ) {
-                              for (food in state.trackedFoods) {
+                              state.trackedFoods.forEach { food ->
                                   TrackedFoodItem(
                                       trackedFood = food,
                                       onDeleteClick = {
@@ -81,7 +81,7 @@ fun TrackerOverviewScreen(
                                       meal.name.asString(context) //Fills in placeholder with value
                                   ),
                                   onClick = {
-                                      TrackerOverviewEvent.OnAddFoodClick(meal)
+                                      viewModel.onEvent(TrackerOverviewEvent.OnAddFoodClick(meal))
                                   },
                                   modifier = Modifier.fillMaxWidth()
                               )

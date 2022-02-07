@@ -57,7 +57,7 @@ fun NutrientBarInfo(
          .fillMaxWidth()
          .aspectRatio(1f)
      ) {
-         drawArc(color = if (value >= goal) { goalExceededColor } else { backgroundColor },
+         drawArc(color = if (value <= goal) { backgroundColor } else { goalExceededColor },
              startAngle = 0f,
              sweepAngle = 360f,
              useCenter = false,
@@ -88,23 +88,26 @@ fun NutrientBarInfo(
          UnitDisplay(
              amount = value,
              unit = stringResource(id = R.string.grams),
-             amountColor = if (value >= goal) {
-                 goalExceededColor
-             } else {
+             amountColor = if (value <= goal) {
                  MaterialTheme.colors.onPrimary
+
+             } else {
+                 goalExceededColor
              },
-             unitColor = if (value >= goal) {
-                 goalExceededColor
-             } else {
+             unitColor = if (value <= goal) {
                  MaterialTheme.colors.onPrimary
-             }
+
+             } else {
+             goalExceededColor
+         }
          )
          Text(
              text = name,
-             color = if (value >= goal) {
-                 goalExceededColor
-             } else {
+             color = if (value <= goal) {
                  MaterialTheme.colors.onPrimary
+
+             } else {
+                 goalExceededColor
              },
              style = MaterialTheme.typography.body1,
              fontWeight = FontWeight.Light

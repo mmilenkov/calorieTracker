@@ -54,13 +54,13 @@ class DefaultPreferences(
 
     override fun saveProteinRatio(ratio: Float) {
         sharedPref.edit()
-            .putFloat(Preferences.KEY_GENDER, ratio)
+            .putFloat(Preferences.KEY_PROTEIN_RATIO, ratio)
             .apply()
     }
 
     override fun saveFatRatio(ratio: Float) {
         sharedPref.edit()
-            .putFloat(Preferences.KEY_GENDER, ratio)
+            .putFloat(Preferences.KEY_FAT_RATIO, ratio)
             .apply()
     }
 
