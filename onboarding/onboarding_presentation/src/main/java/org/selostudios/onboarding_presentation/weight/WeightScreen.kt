@@ -7,8 +7,10 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import kotlinx.coroutines.flow.collect
@@ -18,6 +20,7 @@ import org.selostudios.core_ui.LocalSpacing
 import org.selostudios.onboarding_presentation.shared.ActionButton
 import org.selostudios.onboarding_presentation.shared.UnitTextField
 
+@ExperimentalComposeUiApi
 @Composable
 fun WeightScreen(
     onNavigate: (UiEvent.Navigate) -> Unit,
@@ -56,7 +59,7 @@ fun WeightScreen(
             UnitTextField(
                 value = viewModel.weight,
                 onValueChange = viewModel::onWeightValueChanged,
-                unit = stringResource(id = R.string.cm)
+                unit = stringResource(id = R.string.kg)
             )
         }
         ActionButton(
