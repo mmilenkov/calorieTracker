@@ -10,7 +10,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.annotation.ExperimentalCoilApi
-import kotlinx.coroutines.flow.collect
 import org.selostudios.core.util.UiEvent
 import org.selostudios.core_ui.LocalSpacing
 import org.selostudios.core.R
@@ -20,21 +19,12 @@ import org.selostudios.tracker_presentation.ui.trackeroverview.components.*
 @ExperimentalCoilApi
 @Composable
 fun TrackerOverviewScreen(
-    onNavigate: (UiEvent.Navigate) -> Unit,
+    onNavigateToSearch: (String, Int, Int, Int) -> Unit,
     viewModel: TrackerOverviewViewModel = hiltViewModel()
 ) {
     val spacing = LocalSpacing.current
     val state = viewModel.state
     val context = LocalContext.current
-
-    LaunchedEffect(key1 = true) {
-        viewModel.uiEvent.collect { event ->
-            when (event) {
-                is UiEvent.Navigate -> onNavigate(event)
-                else -> Unit
-            }
-        }
-    }
 
     LazyColumn(
         modifier = Modifier
@@ -64,7 +54,9 @@ fun TrackerOverviewScreen(
                                   .fillMaxWidth()
                                   .padding(horizontal = spacing.small)
                           ) {
-                              state.trackedFoods.forEach { food ->
+                              state.trackedFoods
+                                  .filter { it.mealType == meal.mealType }
+                                  .forEach { food ->
                                   TrackedFoodItem(
                                       trackedFood = food,
                                       onDeleteClick = {
@@ -81,7 +73,12 @@ fun TrackerOverviewScreen(
                                       meal.name.asString(context) //Fills in placeholder with value
                                   ),
                                   onClick = {
-                                      viewModel.onEvent(TrackerOverviewEvent.OnAddFoodClick(meal))
+                                      onNavigateToSearch(
+                                          meal.name.asString(context),
+                                          state.date.dayOfMonth,
+                                          state.date.monthValue,
+                                          state.date.year
+                                      )
                                   },
                                   modifier = Modifier.fillMaxWidth()
                               )

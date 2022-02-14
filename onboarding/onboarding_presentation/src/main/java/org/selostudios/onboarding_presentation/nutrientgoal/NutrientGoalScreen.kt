@@ -20,16 +20,16 @@ import org.selostudios.onboarding_presentation.shared.UnitTextField
 
 @Composable
 fun NutrientGoalScreen(
-       onNavigate: (UiEvent.Navigate) -> Unit,
-       scaffoldState: ScaffoldState,
-       viewModel: NutrientGoalViewModel = hiltViewModel()
+    onNextClick: () -> Unit,
+    scaffoldState: ScaffoldState,
+    viewModel: NutrientGoalViewModel = hiltViewModel()
 ) {
     val spacing = LocalSpacing.current
     val context = LocalContext.current
     LaunchedEffect(key1 = true) {
         viewModel.uiEvent.collect { event ->
             when (event) {
-                is UiEvent.Navigate -> onNavigate(event)
+                is UiEvent.Success -> onNextClick()
                 is UiEvent.ShowSnackbar -> {
                     scaffoldState.snackbarHostState.showSnackbar(
                         message = event.message.asString(context)

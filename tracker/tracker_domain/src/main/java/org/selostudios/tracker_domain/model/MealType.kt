@@ -1,7 +1,5 @@
 package org.selostudios.tracker_domain.model
 
-import java.lang.NullPointerException
-
 sealed class MealType(val name: String) {
     object Breakfast: MealType("breakfast")
     object Lunch: MealType("lunch")
@@ -10,12 +8,12 @@ sealed class MealType(val name: String) {
 
     companion object {
         fun fromString(name: String) : MealType {
-            return when (name) {
+            return when (name.lowercase()) {
                 "breakfast" -> Breakfast
                 "lunch" -> Lunch
                 "dinner" -> Dinner
                 "snack" -> Snack
-                else -> throw NullPointerException()
+                else -> Breakfast //Default fallback
             }
         }
     }

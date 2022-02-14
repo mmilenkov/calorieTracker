@@ -9,13 +9,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import org.selostudios.core.R
-import org.selostudios.core.navigation.Route
-import org.selostudios.core.util.UiEvent
 import org.selostudios.core_ui.LocalSpacing
 import org.selostudios.onboarding_presentation.shared.ActionButton
 
 @Composable
-fun WelcomeScreen(onNavigate: (UiEvent.Navigate) -> Unit) {
+fun WelcomeScreen(onNextClick: () -> Unit) {
     val spacing = LocalSpacing.current
     Column(
         modifier = Modifier.fillMaxSize().padding(spacing.medium),
@@ -30,7 +28,7 @@ fun WelcomeScreen(onNavigate: (UiEvent.Navigate) -> Unit) {
         Spacer(modifier = Modifier.height(spacing.medium))
         ActionButton(
             text = stringResource(id = R.string.next),
-            onClick = { onNavigate(UiEvent.Navigate(Route.GENDER)) },
+            onClick = { onNextClick() },
             modifier = Modifier.align(CenterHorizontally)
         )
     }

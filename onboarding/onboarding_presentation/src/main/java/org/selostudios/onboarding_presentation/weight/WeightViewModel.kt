@@ -10,7 +10,6 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import org.selostudios.core.doman.preferences.Preferences
-import org.selostudios.core.navigation.Route
 import org.selostudios.core.util.UiEvent
 import org.selostudios.core.util.UiText
 import org.selostudios.core.R
@@ -43,7 +42,7 @@ class WeightViewModel @Inject constructor(
                 return@launch
             }
             preferences.saveWeight(weight)
-            _uiEvent.send(UiEvent.Navigate(Route.GOAL))
+            _uiEvent.send(UiEvent.Success)
 
         }
     }

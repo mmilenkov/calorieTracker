@@ -13,7 +13,6 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import org.selostudios.core.doman.preferences.Preferences
-import org.selostudios.core.navigation.Route
 import org.selostudios.core.util.UiEvent
 import org.selostudios.tracker_domain.usecase.TrackerUseCases
 import javax.inject.Inject
@@ -37,19 +36,6 @@ class TrackerOverviewViewModel @Inject constructor(
 
     fun onEvent(event: TrackerOverviewEvent) {
         when (event) {
-            is TrackerOverviewEvent.OnAddFoodClick -> {
-                viewModelScope.launch {
-                    _uiEvent.send(
-                        //Provides arguments to the navController in our MainActivity
-                        UiEvent.Navigate(route = Route.SEARCH +
-                        "/${event.meal.mealType.name}" +
-                        "/${state.date.dayOfMonth}" +
-                        "/${state.date.monthValue}" +
-                        "/${state.date.year}"
-                        )
-                    )
-                }
-            }
             is TrackerOverviewEvent.OnDeleteTrackedFoodClick -> {
                 viewModelScope.launch {
                     trackerUseCases.deleteTrackedFood(event.trackedFood)

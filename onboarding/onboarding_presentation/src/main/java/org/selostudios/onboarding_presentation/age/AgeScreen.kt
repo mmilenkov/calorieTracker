@@ -20,7 +20,7 @@ import org.selostudios.onboarding_presentation.shared.UnitTextField
 
 @Composable
 fun AgeScreen(
-    onNavigate: (UiEvent.Navigate) -> Unit,
+    onNextClick: () -> Unit,
     scaffoldState: ScaffoldState,
     viewModel:AgeViewModel = hiltViewModel()
 ) {
@@ -29,7 +29,7 @@ fun AgeScreen(
     LaunchedEffect(key1 = true) {
         viewModel.uiEvent.collect { event ->
             when (event) {
-                is UiEvent.Navigate -> onNavigate(event)
+                is UiEvent.Success -> onNextClick()
                 is UiEvent.ShowSnackbar -> {
                     scaffoldState.snackbarHostState.showSnackbar(
                         message = event.message.asString(context)

@@ -1,4 +1,4 @@
-package org.selostudios.core.navigation
+package org.selostudios.calorietracker.navigation
 
 object Route {
     //Onboarding

@@ -11,7 +11,6 @@ import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import org.selostudios.core.doman.model.GoalType
 import org.selostudios.core.doman.preferences.Preferences
-import org.selostudios.core.navigation.Route
 import org.selostudios.core.util.UiEvent
 import javax.inject.Inject
 
@@ -30,7 +29,7 @@ class GoalViewModel @Inject constructor(private val preferences: Preferences): V
     fun onNextClick() {
         viewModelScope.launch {
             preferences.saveGoalType(selectedGoalType)
-            _uiEvent.send(UiEvent.Navigate(Route.NUTRIENT_GOAL))
+            _uiEvent.send(UiEvent.Success)
         }
     }
 }

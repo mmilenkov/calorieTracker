@@ -10,7 +10,7 @@ interface OpenFoodAPI {
         const val BASE_URL = "https://us.openfoodfacts.org/" //change for language code. Using us for english
     }
 
-    //Not paginating since 40 entries are more than enough for our usecase
+    //Not paginating since 40 entries are more than enough for our SearchForFood usecase
     @GET("cgi/search.pl?search_simple=1&json=1&action=process&fields=product_name,nutriments,image_front_thumb_url")
     suspend fun searchFood(
         @Query("search_terms") query: String,

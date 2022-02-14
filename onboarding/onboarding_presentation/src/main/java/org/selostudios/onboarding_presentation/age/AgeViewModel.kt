@@ -11,7 +11,6 @@ import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import org.selostudios.core.doman.preferences.Preferences
 import org.selostudios.core.doman.usecase.FilterOutDigits
-import org.selostudios.core.navigation.Route
 import org.selostudios.core.util.UiEvent
 import org.selostudios.core.util.UiText
 import org.selostudios.core.R
@@ -45,7 +44,7 @@ class AgeViewModel @Inject constructor(
                 return@launch
             }
             preferences.saveAge(ageNumber)
-            _uiEvent.send(UiEvent.Navigate(Route.HEIGHT))
+            _uiEvent.send(UiEvent.Success)
 
         }
     }
